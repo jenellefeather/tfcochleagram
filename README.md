@@ -1,6 +1,6 @@
 # tfcochleagram 
 
-Tensorflow wrappers to integrate cochleagram generation (https://github.com/mcdermottLab/pycochleagram) in tensorflow, allowing for gradient computations on the cochleagram generation graph. Cochleagrams are a variation on spectrograms, and default arguments will use half cosine filters at erb spacing but custom filters of the correct shape can alternatively be provided.  
+Tensorflow wrappers to integrate cochleagram generation (https://github.com/mcdermottLab/pycochleagram) in tensorflow, allowing for gradient computations on the cochleagram generation graph. Cochleagrams are a variation on spectrograms but with filter shapes and widths motivated by human perception. Default arguments use half cosine filters at erb spacing. Custom filters can alternatively be provided. After initial (bandpass) filtering, the signals are envelope extracted, compressed, and downsampled to construct the cochleagram representation. 
 
 ## Getting Started
 
@@ -19,7 +19,7 @@ pycochleagram: https://github.com/mcdermottLab/pycochleagram
 tensorflow (tested on v1.13)
 ```
 
-### Demo of cochleagram generation: `tfcochleagram demo.ipynb'
+### Demo of cochleagram generation: `tfcochleagram demo.ipynb`
 Generates cochleagrams and plots the filter response within a tf.Session for an example sound. Includes demo of cochleagrams using parameters similar to [1]. Default erb filter arguments are for cochleagrams with higher time and frequency resolution, similar to those used in [2].
 
 ### Basic demonstration of cochleagram inversion via gradient descent: `InversionDemo.ipynb` 
@@ -41,4 +41,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## References
 [1] McDermott J. and Simoncelli E. Sound Texture Perception via Statistics of the Auditory Periphery: Evidence from Sound Synthesis. Neuron (2011). 
+
 [2] Feather J. and McDermott J. Auditory texture synthesis from task-optimized convolutional neural networks. Conference on Cognitive Computational Neuroscience (2018). 
