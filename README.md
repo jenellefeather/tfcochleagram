@@ -34,8 +34,9 @@ The Demo uses lbfgs to perform the optimization, but similar quality can be obta
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
-* Mark Saddler
 * Ray Gonzalez
+* Mark Saddler
+* Alex Durango
 * Josh McDermott
 * McDermott Lab (https://github.com/mcdermottLab)
 
