@@ -43,11 +43,17 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Citation
 This code was heavily used for the following paper. If you use this code, we recommend including the following citation: 
 
-  Metamers of neural networks reveal divergence from human perceptual systems.
-  Jenelle Feather, Alex Durango, Ray Gonzalez, Josh McDermott.
-  In Advances in Neural Information Processing Systems (2019).
-  
-  PDF: https://papers.nips.cc/paper/9198-metamers-of-neural-networks-reveal-divergence-from-human-perceptual-systems.pdf
+```
+@inproceedings{feather2019metamers,
+  title={Metamers of neural networks reveal divergence from human perceptual systems},
+  author={Feather, Jenelle and Durango, Alex and Gonzalez, Ray and McDermott, Josh},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={10078--10089},
+  year={2019}
+}
+```
+
+PDF: https://papers.nips.cc/paper/9198-metamers-of-neural-networks-reveal-divergence-from-human-perceptual-systems.pdf
 
 ## References
 [1] McDermott J. and Simoncelli E. Sound Texture Perception via Statistics of the Auditory Periphery: Evidence from Sound Synthesis. Neuron (2011). 
