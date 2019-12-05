@@ -32,7 +32,7 @@ def clipped_power_compression(x):
         return dy * tf.where(is_nan_values,replace_nan_values,tf.clip_by_value(g, -1, 1))
     return p, grad
 
-def cochleagram_graph(nets, SR, ENV_SR=400, LOW_LIM=50, HIGH_LIM=8000, N=40, SAMPLE_FACTOR=4, compression='clipped_point3', WINDOW_SIZE=1001, subbands_ifft=False, pycoch_downsamp=False, input_node='input_signal', mean_subtract=False, rms_normalize=False, SMOOTH_ABS=False, include_all_keys=False, pad_factor=None, return_coch_params=False, rFFT=False, linear_params=None, custom_filts=None, custom_compression_op=None, erb_filter_kwargs={'no_lowpass':True, 'no_highpass':True}, reshape_kell2018=False, **kwargs):
+def cochleagram_graph(nets, SR, ENV_SR=400, LOW_LIM=50, HIGH_LIM=8000, N=40, SAMPLE_FACTOR=4, compression='clipped_point3', WINDOW_SIZE=1001, subbands_ifft=False, pycoch_downsamp=False, input_node='input_signal', mean_subtract=False, rms_normalize=False, SMOOTH_ABS=False, include_all_keys=False, pad_factor=None, return_coch_params=False, rFFT=False, linear_params=None, custom_filts=None, custom_compression_op=None, erb_filter_kwargs={'no_lowpass':True, 'no_highpass':True}, reshape_kell2018=False, scale_before_compression=None, **kwargs):
     """
     Creates a tensorflow cochleagram graph using the pycochleagram erb filters to create the cochleagram with the tensorflow functions.
 
@@ -82,6 +82,8 @@ def cochleagram_graph(nets, SR, ENV_SR=400, LOW_LIM=50, HIGH_LIM=8000, N=40, SAM
         contains additional arguments with filter parameters to use with erb.make_erb_cos_filters
     reshape_kell2018 : boolean (False)
         if true, reshapes the output cochleagram to be 256x256 as used by kell2018
+    scale_before_compression : None or float
+        if float, applies this scale to the subbands immediately before compression. This can place the cochleagram values within a desired range. 
         
     Returns
     -------
@@ -104,7 +106,7 @@ def cochleagram_graph(nets, SR, ENV_SR=400, LOW_LIM=50, HIGH_LIM=8000, N=40, SAM
         COCH_PARAMS.pop('nets')
 
     # Make a convenience wrapper for the compression function
-    compression_function = functools.partial(include_compression, compression=compression, linear_params=linear_params, custom_compression_op=custom_compression_op)
+    compression_function = functools.partial(include_compression, compression=compression, linear_params=linear_params, custom_compression_op=custom_compression_op, scale_before_compression=scale_before_compression)
 
     # run preprocessing operations on the input (ie rms normalization, convert to complex)
     nets = preprocess_input(nets, SIGNAL_SIZE, input_node, mean_subtract, rms_normalize, rFFT)
@@ -379,7 +381,7 @@ def downsample_and_rectify(nets, SR, ENV_SR, WINDOW_SIZE, pycoch_downsamp):
 
     return nets
 
-def include_compression(nets, compression='clipped_point3', input_node_name='cochleagram_no_compression', output_node_name='cochleagram', linear_params=None, custom_compression_op=None):
+def include_compression(nets, compression='clipped_point3', input_node_name='cochleagram_no_compression', output_node_name='cochleagram', linear_params=None, custom_compression_op=None, scale_before_compression=None):
     """
     Choose compression operation to use and adds appropriate nodes to nets
 
@@ -397,6 +399,8 @@ def include_compression(nets, compression='clipped_point3', input_node_name='coc
         used for the linear compression operation, [m, b] where the output of the compression is y=mx+b. m and b can be vectors of shape [1,num_filts,1] to apply different values to each frequency channel.
     custom_compression_op : None or tensorflow partial function
         if specified as a function, applies the tensorflow function as a custom compression operation. Should take the input node and 'name' as the arguments
+    scale_before_compression : None or float
+        if float, applies this scale to the subbands immediately before compression. This can place the cochleagram values within a desired range.
 
     Returns
     -------
@@ -404,6 +408,12 @@ def include_compression(nets, compression='clipped_point3', input_node_name='coc
         dictionary containing parts of the cochleagram graph with added nodes for the compressed cochleagram 
 
     """
+    if scale_before_compression is not None: 
+        nets[input_node_name + '_scaled'] = tf.multiply(nets[input_node_name], 
+                                                        scale_before_compression,
+                                                        name=input_node_name+'_scaled')
+        input_node_name = input_node_name + '_scaled'
+
     # 0.3 power compression, "human-like"
     if compression=='point3':
         nets[output_node_name] = tf.pow(nets[input_node_name],0.3, name=output_node_name)
