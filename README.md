@@ -23,9 +23,9 @@ tensorflow (tested on v1.13)
 Generates cochleagrams and plots the filter response within a tf.Session for an example sound. Includes demo of cochleagrams using parameters similar to [1]. Default erb filter arguments are for cochleagrams with higher time and frequency resolution, similar to those used in [2].
 
 ### Basic demonstration of cochleagram inversion via gradient descent: `InversionDemo.ipynb` 
-Generates cochleagrams within a tf.Session and inverts them by minimizing the squared error between a cochleagram from a noise signal and a cochleagram from a demo sound. The inversion proceedure is initialized with pink noise, however sound specific initialization (ie power matching the sound) may lead to faster inversions. 
+Generates cochleagrams within a tf.Session and inverts them by minimizing the squared error between a cochleagram from a noise signal and a cochleagram from a demo sound. The inversion procedure is initialized with pink noise, however sound specific initialization (ie power matching the sound) may lead to faster inversions. 
 
-The Demo uses lbfgs to perform the optimization, but similar quality can be obtained with first order optimizers such as Adam. Cochleagrams can also be inverted using a griffin-lim like proceedure documented in pycochleagram. 
+The Demo uses lbfgs to perform the optimization, but similar quality can be obtained with first order optimizers such as Adam. Cochleagrams can also be inverted using a griffin-lim like procedure documented in pycochleagram. 
 
 ## Authors
 * **Jenelle Feather** (https://github.com/jfeather)
@@ -39,6 +39,21 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * Alex Durango
 * Josh McDermott
 * McDermott Lab (https://github.com/mcdermottLab)
+
+## Citation
+This code was heavily used for the following paper. If you use this code, we recommend including the following citation: 
+
+```
+@inproceedings{feather2019metamers,
+  title={Metamers of neural networks reveal divergence from human perceptual systems},
+  author={Feather, Jenelle and Durango, Alex and Gonzalez, Ray and McDermott, Josh},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={10078--10089},
+  year={2019}
+}
+```
+
+PDF: https://papers.nips.cc/paper/9198-metamers-of-neural-networks-reveal-divergence-from-human-perceptual-systems.pdf
 
 ## References
 [1] McDermott J. and Simoncelli E. Sound Texture Perception via Statistics of the Auditory Periphery: Evidence from Sound Synthesis. Neuron (2011). 
