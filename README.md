@@ -2,6 +2,11 @@
 
 Tensorflow wrappers to integrate cochleagram generation (https://github.com/mcdermottLab/pycochleagram) in tensorflow, allowing for gradient computations on the cochleagram generation graph. Cochleagrams are a variation on spectrograms but with filter shapes and widths motivated by human perception. Default arguments use half cosine filters at erb spacing. Custom filters can alternatively be provided. After initial (bandpass) filtering, the signals are envelope extracted, compressed, and downsampled to construct the cochleagram representation. 
 
+## 🚨🚨🚨Version Warning🚨🚨🚨
+This project was written in tensorflow v1.13 and is no longer being actively updated for new versions (with no guarantees to work with tensorflow v2+).
+
+A newer repository for cochleagram generation in pytorch is located here: https://github.com/jenellefeather/chcochleagram
+
 ## Getting Started
 
 Cochleagram generation code is in `tfcochleagram.py`. Call for generating cochleagrams is of the form: 
